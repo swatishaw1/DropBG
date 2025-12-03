@@ -9,10 +9,8 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.security.KeyFactory;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 

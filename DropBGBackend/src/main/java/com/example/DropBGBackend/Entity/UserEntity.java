@@ -17,17 +17,17 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String clerkId;
     @Column(unique = true, nullable = false)
     private String email;
     private String firstName;
     private String lastName;
-    private Integer credits;
     private String photoUrl;
+    private Integer credits;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         if (credits == null) {
             credits = 5;
         }

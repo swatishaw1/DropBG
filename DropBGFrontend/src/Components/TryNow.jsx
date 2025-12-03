@@ -1,7 +1,10 @@
 import { useClerk } from "@clerk/clerk-react";
+import { useContext } from "react";
+import { AppContext } from "../Context/AppContext";
 
 const TryNow = () => {
-    const{ openSignIn} = useClerk();
+    const{openSignIn} = useClerk();
+    const{removeBg} = useContext(AppContext);
 
     const openLogin = () => {
         openSignIn({});
@@ -15,7 +18,7 @@ const TryNow = () => {
                 Get a Transparent Background for Any
             </p>
             <div className="bg-white rounded-2xl shadow-lg p-10 flex flex-col items-center space-y-4">
-                <input type="file" id="upload2" hidden accept="image/*" onClick={openLogin}/>
+                <input type="file" id="upload2" hidden accept="image/*" onChange={(e) => removeBg(e.target.files[0])}/>
                 <label htmlFor="upload2" 
                 className="bg-indigo-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-full text-lg transform hover:scale-105 cursor-pointer">
                     Upload Image

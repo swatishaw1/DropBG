@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SignedIn, SignedOut, useAuth, useClerk, UserButton, useUser } from "@clerk/clerk-react";
+import { AppContext } from "../Context/AppContext";
 
 const Menubar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const{ openSignIn, openSignUp} = useClerk();
     const{user} = useUser();
-    const{getToken} = useAuth();
+    const {credits} = useContext(AppContext);
+    // const{getToken} = useAuth();
 
     const openRegister = () => {
         setMenuOpen(false);
@@ -20,11 +22,11 @@ const Menubar = () => {
         openSignIn({});
     }
 
-    const getData = async () => {
-        const token = await getToken();
-        console.log(token);
-        console.log(user);
-    }
+    // const getData = async () => {
+    //     const token = await getToken();
+    //     console.log(token);
+    //     console.log(user);
+    // }
 
     return (
         <nav className="bg-white px-8 py-4 flex justify-between items-center">
@@ -46,10 +48,10 @@ const Menubar = () => {
                         <button className="flex items-center gap-2 bg-blue-100 px-4 sm:px-4 sm:px-5 py-1 5 sm:py-2 5 rounded-full hover:scale-105 transition-all duration-500 cursor-pointer">
                             <img src={assets.credits} alt="credits" height={24} width={24}/>
                             <p className="text-xs sm:text-sm font-medium text-gray-600">
-                                Credits: 0
+                                Credits: {credits}
                             </p>
                         </button>
-                        <button onClick={getData}>Get the data</button>
+                        {/* <button onClick={getData}>Get the data</button> */}
                         <p className="text-gray-600 max-sm:hiddden">
                             Hi,{user?.fullName}
                         </p>
@@ -80,7 +82,7 @@ const Menubar = () => {
                                 <img src={assets.credits} alt="credits" height={24} width={24}/>
                             </button>
                             <p className="text-xs sm:text-sm font-medium text-gray-600">
-                                Credits: 0
+                                Credits: {credits}
                             </p>
                         </div>
                         <div>

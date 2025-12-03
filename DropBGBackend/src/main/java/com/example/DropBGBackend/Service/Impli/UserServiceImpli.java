@@ -5,6 +5,7 @@ import com.example.DropBGBackend.Entity.UserEntity;
 import com.example.DropBGBackend.Repository.UserRepository;
 import com.example.DropBGBackend.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class UserServiceImpli implements UserService {
             existingUser.setFirstName(userDTO.getFirstName());
             existingUser.setLastName(userDTO.getLastName());
             existingUser.setPhotoUrl(userDTO.getPhotoUrl());
-            if (existingUser.getCredits()!=null){
+            if (userDTO.getCredits()!=null){// Only update credits if it's provided
                 existingUser.setCredits(userDTO.getCredits());
             }
             existingUser = userRepository.save(existingUser);
@@ -33,6 +34,20 @@ public class UserServiceImpli implements UserService {
         UserEntity newUser = mapToEntity(userDTO);
         userRepository.save(newUser);
         return mapToDTO(newUser);
+    }
+
+    @Override
+    public UserDTO getUserByClerkId(String clerkId) {
+        UserEntity userEntity = userRepository.findByClerkId(clerkId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+        return mapToDTO(userEntity);
+    }
+
+    @Override
+    public void deleteUserByClerkId(String clerkId) {
+        UserEntity userEntity = userRepository.findByClerkId(clerkId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+        userRepository.delete(userEntity);
     }
 
     private UserDTO mapToDTO(UserEntity newUser) {

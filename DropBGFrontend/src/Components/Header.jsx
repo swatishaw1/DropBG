@@ -1,9 +1,12 @@
 import toast from "react-hot-toast";
 import { assets } from "../assets/assets";
 import { SignedOut, useClerk } from "@clerk/clerk-react";
+import { useContext } from "react";
+import { AppContext } from "../Context/AppContext";
 
 const Header = () => {
     const{ openSignIn} = useClerk();
+    const{removeBg} = useContext(AppContext);
 
     const openLogin = () => {
         openSignIn({});
@@ -24,8 +27,8 @@ const Header = () => {
                 <p className="text-gray-600 mb-8 text-lg leading-relaxed">
                     Transform your photos with our background remover app! Highlight your subject and create a transparent background, so you can place it in a variety of new designs and destinations. Try it now and immense your subject in a compeletely different environment!
                 </p>
-                <div onClick={openLogin}>
-                    <input type="file" accept="image/*" id="upload1" hidden/>
+                <div>
+                    <input type="file" accept="image/*" id="upload1" hidden onChange={(e)=>removeBg(e.target.files[0])}/>
                     <label htmlFor="upload1" className="bg-black text-white font-medium px-8 py-4 rounded-full hover:opacity-90 transition-transform hover:scale-105 text-lg cursor-pointer">
                         Upload your image
                     </label>

@@ -7,10 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -45,6 +44,38 @@ public class UserController {
                     .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
                     .build();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping("/credits")
+    public ResponseEntity<?> getUserCredits(Authentication authentication){
+        DropBGResponse creditResponse =null;
+        try {
+            if(authentication == null){
+                creditResponse = DropBGResponse.builder()
+                        .statusCode(HttpStatus.FORBIDDEN)
+                        .data("User does not have permission to access this resource.")
+                        .success(false)
+                        .build();
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(creditResponse);
+            }
+            String clerkId = authentication.getName();
+            UserDTO existingUser = userService.getUserByClerkId(clerkId);
+            Map<String,Integer> map = new HashMap<>();
+            map.put("credits",existingUser.getCredits());
+            creditResponse = DropBGResponse.builder()
+                    .statusCode(HttpStatus.OK)
+                    .data(map)
+                    .success(true)
+                    .build();
+            return ResponseEntity.status(HttpStatus.OK).body(creditResponse);
+        }catch (Exception exception){
+            creditResponse = DropBGResponse.builder()
+                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .data(exception.getMessage())
+                    .success(false)
+                    .build();
+            return ResponseEntity.status(HttpStatus.OK).body(creditResponse);
         }
     }
 }

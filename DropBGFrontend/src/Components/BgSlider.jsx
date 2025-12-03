@@ -3,7 +3,7 @@ import { assets, categories } from "../assets/assets";
 
 const BgSlider = () => {
     const [sliderPosition, setSliderPosition] = useState(50);
-    const [activeCategory, setActiveCategory] = useState(false);
+    const [activeCategory, setActiveCategory] = useState("People");
 
     const handleSliderChange = (e) => {
         setSliderPosition(e.target.value);

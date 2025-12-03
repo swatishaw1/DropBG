@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 MyThoughts.txt
+Problems.txt
 
 ### STS ###
 .apt_generated
