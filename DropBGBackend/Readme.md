@@ -22,6 +22,7 @@ It handles image processing, user syncing, authentication, credit management, an
 DropBGBackend/
 │
 ├── src/main/java/com/example/DropBGBackend
+│ │
 │ ├── Client/
 │ │ └── ClipDropClient.java # Feign client for ClipDrop API
 │ │
@@ -58,7 +59,7 @@ DropBGBackend/
 │ └── static/
 │
 ├── pom.xml
-└── README.md (this file)
+└── README.md
 ---
 
 ## 🔑 Environment Variables (`application.properties`)
