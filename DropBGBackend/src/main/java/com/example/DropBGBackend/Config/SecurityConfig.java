@@ -1,5 +1,4 @@
 package com.example.DropBGBackend.Config;
-
 import com.example.DropBGBackend.Security.ClerkJwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

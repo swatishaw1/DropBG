@@ -33,30 +33,31 @@ public class ClerkJwksProvider {
     //If keys are Expired then fetch new keys from Server
     private void refreshKeys() throws Exception{
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode jwks = mapper.readTree(new URL(jwksUrl));
+        JsonNode jwks = mapper.readTree(new URL(jwksUrl));//From JwksUrl we get the key
         JsonNode keys = jwks.get("keys");
         for (JsonNode keyNode: keys){
-            String kid = keyNode.get("kid").asText();
-            String kty = keyNode.get("kty").asText();
-            String alg = keyNode.get("alg").asText();
+            String kid = keyNode.get("kid").asText();//Key id
+            String kty = keyNode.get("kty").asText();//Key Type
+            String alg = keyNode.get("alg").asText();//Key algorithm
             if ("RSA".equals(kty) && "RS256".equals(alg)){
                 String n = keyNode.get("n").asText();
                 String e = keyNode.get("e").asText();
-                PublicKey publicKey = createPublicKey(n,e);
+                PublicKey publicKey = createPublicKey(n,e);//Creating new key
                 keyCache.put(kid, publicKey);
             }
         }
         lastFetchedTime = System.currentTimeMillis();
     }
 
+    //It reconstructs an RSA public key from raw values so Spring can verify a JWT signature.
     private PublicKey createPublicKey(String modulus, String exponent) throws Exception{
-        byte[] modulusBytes = Base64.getUrlDecoder().decode(modulus);
-        byte[] exponentBytes = Base64.getUrlDecoder().decode(exponent);
+            byte[] modulusBytes = Base64.getUrlDecoder().decode(modulus);
+            byte[] exponentBytes = Base64.getUrlDecoder().decode(exponent);
 
-        BigInteger modulusBigInt = new BigInteger(1, modulusBytes);
-        BigInteger exponentBigInt = new BigInteger(1, exponentBytes);
-        RSAPublicKeySpec spec = new RSAPublicKeySpec(modulusBigInt, exponentBigInt);
-        KeyFactory factory = KeyFactory.getInstance("RSA");
-        return factory.generatePublic(spec);
+            BigInteger modulusBigInt = new BigInteger(1, modulusBytes);
+            BigInteger exponentBigInt = new BigInteger(1, exponentBytes);
+            RSAPublicKeySpec spec = new RSAPublicKeySpec(modulusBigInt, exponentBigInt);
+            KeyFactory factory = KeyFactory.getInstance("RSA");
+            return factory.generatePublic(spec);
     }
 }

@@ -7,9 +7,9 @@ import { AppContext } from "../Context/AppContext";
 
 const Menubar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const{ openSignIn, openSignUp} = useClerk();
-    const{user} = useUser();
-    const {credits} = useContext(AppContext);
+    const { openSignIn, openSignUp } = useClerk();
+    const { user } = useUser();
+    const { credits } = useContext(AppContext);
     // const{getToken} = useAuth();
 
     const openRegister = () => {
@@ -46,7 +46,7 @@ const Menubar = () => {
                 <SignedIn>
                     <div className="flex items-center gap-2 sm:gap-3">
                         <button className="flex items-center gap-2 bg-blue-100 px-4 sm:px-4 sm:px-5 py-1 5 sm:py-2 5 rounded-full hover:scale-105 transition-all duration-500 cursor-pointer">
-                            <img src={assets.credits} alt="credits" height={24} width={24}/>
+                            <img src={assets.credits} alt="credits" height={24} width={24} />
                             <p className="text-xs sm:text-sm font-medium text-gray-600">
                                 Credits: {credits}
                             </p>
@@ -56,7 +56,7 @@ const Menubar = () => {
                             Hi,{user?.fullName}
                         </p>
                     </div>
-                    <UserButton/>
+                    <UserButton />
                 </SignedIn>
             </div>
             {/*Mobile Menubar(Hamburger)*/}
@@ -69,24 +69,24 @@ const Menubar = () => {
             {menuOpen && (
                 <div className="absolute top-16 right-8 bg-white shadow-md rounded-md flex flex-col space-y-4 p-4 w-40">
                     <SignedOut>
-                    <button className="text-gray-700 hover:text-blue-500 font-medium" onClick={openLogin}>
-                        Login
-                    </button>
-                    <button className="bg-gray-100 hover:-bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-full text-center" onClick={openRegister}>
-                        Sign Up
-                    </button>
+                        <button className="text-gray-700 hover:text-blue-500 font-medium" onClick={openLogin}>
+                            Login
+                        </button>
+                        <button className="bg-gray-100 hover:-bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-full text-center" onClick={openRegister}>
+                            Sign Up
+                        </button>
                     </SignedOut>
                     <SignedIn>
                         <div className="flex items-center gap-2 sm:gap:3">
                             <button className="flex items-center gap-2 bg-blue-100 px-4 py-1 5 rounded-full hover:scale-105 transition-all duration-500 cursor-pointer">
-                                <img src={assets.credits} alt="credits" height={24} width={24}/>
+                                <img src={assets.credits} alt="credits" height={24} width={24} />
                             </button>
                             <p className="text-xs sm:text-sm font-medium text-gray-600">
                                 Credits: {credits}
                             </p>
                         </div>
                         <div>
-                            <UserButton className="gap-5"/> Hi, {user?.firstName}
+                            <UserButton className="gap-5" /> Hi, {user?.firstName}
                         </div>
                     </SignedIn>
                 </div>
