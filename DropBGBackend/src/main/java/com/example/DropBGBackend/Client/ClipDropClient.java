@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 @FeignClient(name = "clipDropClient", url = "https://clipdrop-api.co")
+//From Service layer 
 public interface ClipDropClient {
 
     @PostMapping(value = "/remove-background/v1",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

@@ -53,10 +53,9 @@ public class ClerkJwksProvider {
     private PublicKey createPublicKey(String modulus, String exponent) throws Exception{
             byte[] modulusBytes = Base64.getUrlDecoder().decode(modulus);
             byte[] exponentBytes = Base64.getUrlDecoder().decode(exponent);
-
             BigInteger modulusBigInt = new BigInteger(1, modulusBytes);
             BigInteger exponentBigInt = new BigInteger(1, exponentBytes);
-            RSAPublicKeySpec spec = new RSAPublicKeySpec(modulusBigInt, exponentBigInt);
+            RSAPublicKeySpec spec = new RSAPublicKeySpec(modulusBigInt, exponentBigInt);//modulus and Exponent where modulus is private and big int which multiple of random two prime ints and exponent is small and fixed and public
             KeyFactory factory = KeyFactory.getInstance("RSA");
             return factory.generatePublic(spec);
     }

@@ -34,6 +34,7 @@ public class ClerkJwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        //It skips authentication/security filtering for webhook requests.
         if (request.getRequestURI().contains("/api/webhooks")){
             filterChain.doFilter(request,response);
             return;

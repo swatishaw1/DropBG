@@ -30,6 +30,7 @@ public class ImageController {
         DropBGResponse imageResponse =null;
         Map<String,Object> responseMap = new HashMap<>();
         try{
+            //validation
             if (authentication.getName().isEmpty() || authentication.getName() == null){
                 imageResponse = DropBGResponse.builder()
                         .statusCode(HttpStatus.FORBIDDEN)
@@ -50,7 +51,7 @@ public class ImageController {
                         .data("The Image handled majorly")
                         .success(false)
                         .build();
-                return  ResponseEntity.ok(imageResponse);
+                return  ResponseEntity.badRequest().body(imageResponse);
             }
             byte[] imageByte = removeBackgroundService.removeBackground(file);
              String base64Image = Base64.getEncoder().encodeToString(imageByte);

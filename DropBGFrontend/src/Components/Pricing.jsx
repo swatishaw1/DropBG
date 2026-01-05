@@ -1,7 +1,26 @@
+import { useAuth, useClerk } from "@clerk/clerk-react";
 import { plans } from "../assets/assets";
+import { useContext } from "react";
+import { placeOrder } from "../Service/OrderService";
+import { AppContext } from "../Context/AppContext";
 
 const Pricing = () => {
-    return ( 
+    const { isSignedIn, getToken } = useAuth();
+    const { openSignIn } = useClerk();
+    const { loadUserCredits, backendUrl } = useContext(AppContext);
+
+    const handleOrder = (planId) => {
+        if (!isSignedIn) {
+            return openSignIn();
+        }
+        placeOrder({
+            planId, getToken, onSuccess: () => {
+                loadUserCredits();
+            }, backendUrl
+        });
+    }
+
+    return (
         <div className="py-10 md:px-20 lg:px-20">
             <div className="container mx-auto px-4">
                 {/*Section title*/}
@@ -17,7 +36,7 @@ const Pricing = () => {
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {plans.map((plan) => (
                         <div key={plan.id} className={`relative pt-6 p-6 ${plan.popular ? 'backdrop-blur-lg rounded-xl' : 'border-gray-800 rounded-xl'} bg-[#1A1A1A] hover:-translate-y-2 transition-all duration-300`}>
-                            {plan.popular &&(
+                            {plan.popular && (
                                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-purple-600 px-3 py-1 text-white text-sm font-semibold">
                                     Most Popular
                                 </div>
@@ -39,7 +58,7 @@ const Pricing = () => {
                                         {plan.description}
                                     </li>
                                 </ul>
-                                <button className="w-full py-3 px-6 text-center text-white font-semibold rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 shadow-lg hover:to-indigo-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer">
+                                <button className="w-full py-3 px-6 text-center text-white font-semibold rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 shadow-lg hover:to-indigo-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer" onClick={() => handleOrder(plan.id)}>
                                     Choose Plan
                                 </button>
                             </div>
@@ -48,7 +67,7 @@ const Pricing = () => {
                 </div>
             </div>
         </div>
-     );
+    );
 }
- 
+
 export default Pricing;

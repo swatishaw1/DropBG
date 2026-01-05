@@ -3,6 +3,8 @@ import { AppContext } from "../Context/AppContext";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 
+
+//It reads shared global data and functions from AppContext so this component can use them.
 const Result = () => {
     const { image, resultImage } = useContext(AppContext);
     const navigate = useNavigate();

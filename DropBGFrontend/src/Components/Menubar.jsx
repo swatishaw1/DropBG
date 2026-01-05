@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SignedIn, SignedOut, useAuth, useClerk, UserButton, useUser } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { AppContext } from "../Context/AppContext";
 
 const Menubar = () => {
