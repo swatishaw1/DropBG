@@ -19,12 +19,12 @@ public class OrderServiceImpli implements OrderService {
     private final OrderRepository orderRepository;
 
     private static final Map<String,PlanDetails> PLAN_DETAILS = Map.of(
-            "Basic", new PlanDetails("Basic",100,499.00),
-            "Premium", new PlanDetails("Premium",250,899.00),
-            "Ultimate", new PlanDetails("Ultimate",1000,1499.00)
+            "Basic", new PlanDetails("Basic",100,499),
+            "Premium", new PlanDetails("Premium",250,899),
+            "Ultimate", new PlanDetails("Ultimate",1000,1499)
     );
 
-    private record PlanDetails(String name,int credits,double amount){
+    private record PlanDetails(String name,int credits,int amount){
     }
     @Override
     public Order createOrder(String planId, String clerkId) throws RazorpayException {
@@ -38,7 +38,7 @@ public class OrderServiceImpli implements OrderService {
                     .clerkId(clerkId)
                     .plan(planDetails.name())
                     .credits(planDetails.credits())
-                    .amount((long) planDetails.amount())
+                    .amount(planDetails.amount())
                     .orderId(razorpayOrder.get("id"))
                     .build();
             if (orderRepository.findByOrderId(razorpayOrder.get("id")).isPresent()) {

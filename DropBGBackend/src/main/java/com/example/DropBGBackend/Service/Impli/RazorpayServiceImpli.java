@@ -31,7 +31,7 @@ public class RazorpayServiceImpli implements RazorpayService {
     private final OrderRepository orderRepository;
 
     @Override
-    public Order createdOrder(Double amount, String currency) throws RazorpayException {
+    public Order createdOrder(Integer amount, String currency) throws RazorpayException {
         try {
             RazorpayClient razorpayClient = new RazorpayClient(razorpayKeyId,razorpaySecretKey);
             JSONObject orderRequest = new JSONObject();

@@ -16,7 +16,7 @@ import java.util.Date;
 public class RazorpayOrderDTO {
     private String id;
     private String entity;
-    private Long amount;
+    private Integer amount;
     private String currency;
     private String status;
     private Date created_at;

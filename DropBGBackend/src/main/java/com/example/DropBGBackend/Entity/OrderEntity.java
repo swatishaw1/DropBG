@@ -21,7 +21,7 @@ public class OrderEntity {
     private String orderId;
     private String clerkId;
     private String plan;
-    private Long amount;
+    private Integer amount;
     private Integer credits;
     private Boolean payment;
     @CreationTimestamp

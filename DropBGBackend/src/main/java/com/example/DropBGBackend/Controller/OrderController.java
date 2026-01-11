@@ -24,7 +24,7 @@ public class OrderController {
     private final RazorpayService razorpayService;
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestParam String planId, Authentication authentication) throws RazorpayException {
+    public ResponseEntity<?> createOrder(@RequestParam String planId,Authentication authentication) throws RazorpayException {
         Map<String,Object> map = new HashMap<>();
         DropBGResponse response = null;
         if (authentication == null || authentication.getName() == null) {
@@ -36,8 +36,7 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
         }
         try {
-            Order order = orderService.createOrder(planId,authentication.getName());
-            System.out.println(order);
+            Order order = orderService.createOrder(planId,authentication.getName());// clerkId is the authentication.getName in DB
             RazorpayOrderDTO responseDTO = convertToDTO(order);
             response = DropBGResponse.builder()
                     .success(true)
