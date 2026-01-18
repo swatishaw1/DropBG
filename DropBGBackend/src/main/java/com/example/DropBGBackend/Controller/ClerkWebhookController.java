@@ -18,12 +18,7 @@ import java.net.http.HttpHeaders;
 @RequestMapping("/api/webhooks")
 @RequiredArgsConstructor
 public class ClerkWebhookController {
-
-    @Value("${CLERK_APP_SECRET_KEY}")
-    private String webhookSecret;
-
     private final UserService userService;
-
     private final JwtValidator validator;
     @PostMapping("/clerk")
     public ResponseEntity<?> handleClerkWebhook(/*@RequestHeader HttpHeaders headers,*/
@@ -34,7 +29,6 @@ public class ClerkWebhookController {
 
         DropBGResponse response = null;
         try{
-            /*boolean valid = verifySignature(headers ,payload);*/
             boolean valid = verifySignature(svixId,svixTimestamp,svixSignature ,payload);
             if(!valid){
                 response = DropBGResponse.builder()
@@ -97,11 +91,7 @@ public class ClerkWebhookController {
     }
 
     private boolean verifySignature(String svixId, String svixTimestamp, String svixSignature, String payload) {
-        return true; // Placeholder for actual signature verification logic
+        return validator.validate(svixId,svixTimestamp,svixSignature,payload);//If validation cant be done properly then in database the user is not created properly and bg_removal won't get started though payment would be working
+        /*return true; */
     }
-
-   /* private boolean verifySignature(HttpHeaders headers, String payload) {
-        boolean result = validator.validate(payload, headers);// this validate the signature
-        return result; // Placeholder for actual signature verification logic
-    }*/
 }
