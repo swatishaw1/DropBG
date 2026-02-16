@@ -7,12 +7,9 @@ import com.example.DropBGBackend.Service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/api/webhooks")
@@ -21,14 +18,17 @@ public class ClerkWebhookController {
     private final UserService userService;
     private final JwtValidator validator;
     @PostMapping("/clerk")
-    public ResponseEntity<?> handleClerkWebhook(/*@RequestHeader HttpHeaders headers,*/
-                                                  @RequestHeader("svix-id") String svixId,
+    public ResponseEntity<?> handleClerkWebhook(@RequestHeader("svix-id") String svixId,
                                                   @RequestHeader("svix-timestamp") String svixTimestamp,
                                                 @RequestHeader("svix-signature") String svixSignature,
                                                 @RequestBody String payload){
 
         DropBGResponse response = null;
         try{
+            System.out.println(svixId);
+            System.out.println(svixTimestamp);
+            System.out.println(svixSignature);
+
             boolean valid = verifySignature(svixId,svixTimestamp,svixSignature ,payload);
             if(!valid){
                 response = DropBGResponse.builder()

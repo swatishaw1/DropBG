@@ -49,6 +49,9 @@ public class ClerkJwtAuthFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             String[] chunks = token.split("\\.");
             String headerJson = new String(Base64.getUrlDecoder().decode(chunks[0]));
+            /*chunks[0] → header
+            chunks[1] → payload
+            chunks[2] → signature*/
             ObjectMapper mapper = new ObjectMapper();
             JsonNode headerNode = mapper.readTree(headerJson);
             String kid = headerNode.get("kid").asText();

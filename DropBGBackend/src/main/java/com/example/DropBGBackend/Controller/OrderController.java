@@ -5,6 +5,7 @@ import com.example.DropBGBackend.Response.DropBGResponse;
 import com.example.DropBGBackend.Service.OrderService;
 import com.example.DropBGBackend.Service.RazorpayService;
 import com.razorpay.Order;
+import com.razorpay.Payment;
 import com.razorpay.RazorpayException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +39,11 @@ public class OrderController {
         }
         try {
             Order order = orderService.createOrder(planId,authentication.getName());// clerkId is the authentication.getName in DB
+            System.out.println("Razorpay version: ");
+            System.out.println(order);
+            if (!Objects.equals(order.get("status").toString(), "paid")) {
+                System.out.println("Payment Not Done Yet");
+            }
             RazorpayOrderDTO responseDTO = convertToDTO(order);
             response = DropBGResponse.builder()
                     .success(true)

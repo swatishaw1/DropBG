@@ -43,5 +43,14 @@ const initializePayment = async ({ order, getToken, onSuccess, backendUrl }) => 
         }
     }
     const rzp = new window.Razorpay(options);
+    rzp.on('payment.failed', function (response) {
+        toast.error(response.error.code);
+        toast.error(response.error.description);
+        toast.error(response.error.source);
+        toast.error(response.error.step);
+        toast.error(response.error.reason);
+        toast.error(response.error.metadata.order_id);
+        toast.error(response.error.metadata.payment_id);
+    });
     rzp.open();
 }

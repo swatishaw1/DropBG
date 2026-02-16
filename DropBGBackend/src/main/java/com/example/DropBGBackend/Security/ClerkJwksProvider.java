@@ -37,11 +37,11 @@ public class ClerkJwksProvider {
         JsonNode keys = jwks.get("keys");
         for (JsonNode keyNode: keys){
             String kid = keyNode.get("kid").asText();//Key id
-            String kty = keyNode.get("kty").asText();//Key Type
-            String alg = keyNode.get("alg").asText();//Key algorithm
+            String kty = keyNode.get("kty").asText();//Key Type RSA
+            String alg = keyNode.get("alg").asText();//Key algorithm RS256
             if ("RSA".equals(kty) && "RS256".equals(alg)){
-                String n = keyNode.get("n").asText();
-                String e = keyNode.get("e").asText();
+                String n = keyNode.get("n").asText();//Modulus
+                String e = keyNode.get("e").asText();//Exponential
                 PublicKey publicKey = createPublicKey(n,e);//Creating new key
                 keyCache.put(kid, publicKey);
             }

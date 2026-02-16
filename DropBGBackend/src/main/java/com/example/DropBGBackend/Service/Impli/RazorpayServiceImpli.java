@@ -67,6 +67,8 @@ public class RazorpayServiceImpli implements RazorpayService {
                 orderRepository.save(existingOrder);
                 returnValue.put("success",true);
                 returnValue.put("message","Payment Successfull and Credits Added");
+                System.out.println("Order Status: ");
+                System.out.println(orderInfo);
                 return returnValue;
             }
         }catch (RazorpayException e){
