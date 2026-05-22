@@ -36,6 +36,17 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /*@Bean //For testing purpose
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+        http.cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        return http.build();
+    }*/
+
     @Bean
     public CorsFilter corsFilter(){
         return new CorsFilter(corsConfigurationSource());

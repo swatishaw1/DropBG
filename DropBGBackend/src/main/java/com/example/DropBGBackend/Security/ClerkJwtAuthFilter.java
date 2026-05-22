@@ -61,12 +61,9 @@ public class ClerkJwtAuthFilter extends OncePerRequestFilter {
 
             //verify the token
             Claims claims = Jwts.parser()
-                    .setSigningKey(publicKey)
-                    .setAllowedClockSkewSeconds(60) //allow 1 minute clock skew
+                    .verifyWith(publicKey).clockSkewSeconds(60) //allow 1 minute clock skew
                     .requireIssuer(clerkIssuer)
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .build().parseSignedClaims(token).getPayload();
             String clerkUserId = claims.getSubject();
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     clerkUserId, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"))

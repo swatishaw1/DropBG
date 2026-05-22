@@ -44,7 +44,7 @@ public class OrderController {
             String status = order.get("status").toString();
             if (!(status.equalsIgnoreCase("authorized") ||
                     status.equalsIgnoreCase("captured") ||
-                    status.equalsIgnoreCase("paid")
+                    status.equalsIgnoreCase("created")
             )) {
                 System.out.println("Payment Not Done Yet");
             }

@@ -31,28 +31,28 @@ const initializePayment = async ({ order, getToken, onSuccess, backendUrl }) => 
         receipt: order.receipt,
         handler: async (paymentDetails) => {
             try {
+                console.log("PAYMENT SUCCESS");
+                console.log(paymentDetails);
                 const token = await getToken();
-                const response = await axios.post(`${backendUrl}/orders/verify`, paymentDetails, { headers: { Authorization: `Bearer ${token}` } });
+                const response = await axios.post(`${backendUrl}/orders/verify`, paymentDetails,
+                    { headers: { Authorization: `Bearer ${token}` } });
                 if (response.status === 200) {
                     toast.success("Credits Added");
                     onSuccess?.();
                 }
             } catch (error) {
                 toast.error(error.message);
+                console.log(error.message);
             }
         }
     }
     const rzp = new window.Razorpay(options);
     rzp.on('payment.failed', function (response) {
-        toast.error(response.error.code);
+        console.log("FULL PAYMENT ERROR");
+        console.log(response);
         toast.error(response.error.description);
         console.log(response.error.description);
-        toast.error(response.error.source);
-        toast.error(response.error.step);
-        toast.error(response.error.reason);
-        toast.error(response.error.metadata.order_id);
-        toast.error(response.error.metadata.payment_id);
-        console.log("Payment not done");
+
     });
     rzp.open();
 }
