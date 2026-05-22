@@ -41,7 +41,11 @@ public class OrderController {
             Order order = orderService.createOrder(planId,authentication.getName());// clerkId is the authentication.getName in DB
             System.out.println("Razorpay version: ");
             System.out.println(order);
-            if (!Objects.equals(order.get("status").toString(), "paid")) {
+            String status = order.get("status").toString();
+            if (!(status.equalsIgnoreCase("authorized") ||
+                    status.equalsIgnoreCase("captured") ||
+                    status.equalsIgnoreCase("paid")
+            )) {
                 System.out.println("Payment Not Done Yet");
             }
             RazorpayOrderDTO responseDTO = convertToDTO(order);

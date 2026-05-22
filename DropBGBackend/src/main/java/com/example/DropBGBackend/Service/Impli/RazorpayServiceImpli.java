@@ -52,7 +52,10 @@ public class RazorpayServiceImpli implements RazorpayService {
         try{
             RazorpayClient razorpayClient = new RazorpayClient(razorpayKeyId,razorpaySecretKey);
             Order orderInfo = razorpayClient.orders.fetch(razorpayOrderId);
-            if (orderInfo.get("status").toString().equalsIgnoreCase("paid")){
+            if (orderInfo.get("status").toString().equalsIgnoreCase("paid")||
+                    orderInfo.get("status").toString().equalsIgnoreCase("captured") ||
+                    orderInfo.get("status").toString().equalsIgnoreCase("authorized")
+            ){
                 OrderEntity existingOrder = orderRepository.findByOrderId(razorpayOrderId)
                         .orElseThrow(() -> new RazorpayException("Order Not Found"));
                 if (existingOrder.getPayment()){

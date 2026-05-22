@@ -21,7 +21,6 @@ const initializePayment = async ({ order, getToken, onSuccess, backendUrl }) => 
     }
 
     //From https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps#1-build-integration
-    console.log(import.meta.env.VITE_RAZORPAY_API_Key);
     const options = {
         key: import.meta.env.VITE_RAZORPAY_API_Key,
         amount: order.amount,
