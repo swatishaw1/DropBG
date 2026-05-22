@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "tbl_orders")
+@Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

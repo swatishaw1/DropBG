@@ -21,6 +21,7 @@ const initializePayment = async ({ order, getToken, onSuccess, backendUrl }) => 
     }
 
     //From https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/integration-steps#1-build-integration
+    console.log(import.meta.env.VITE_RAZORPAY_API_Key);
     const options = {
         key: import.meta.env.VITE_RAZORPAY_API_Key,
         amount: order.amount,
@@ -46,11 +47,13 @@ const initializePayment = async ({ order, getToken, onSuccess, backendUrl }) => 
     rzp.on('payment.failed', function (response) {
         toast.error(response.error.code);
         toast.error(response.error.description);
+        console.log(response.error.description);
         toast.error(response.error.source);
         toast.error(response.error.step);
         toast.error(response.error.reason);
         toast.error(response.error.metadata.order_id);
         toast.error(response.error.metadata.payment_id);
+        console.log("Payment not done");
     });
     rzp.open();
 }

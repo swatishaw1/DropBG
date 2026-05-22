@@ -8,8 +8,8 @@ const UserSyncHandler = () => {
     const { isLoaded, isSignedIn, getToken } = useAuth();
     const { user } = useUser();
     const [synced, setSynced] = useState(false);
-    const { backendUrl,loadUserCredits } = useContext(AppContext);
-    useEffect(() => {
+    const { backendUrl, loadUserCredits } = useContext(AppContext);
+    useEffect(() => {// Used useEffect because it saves after re-render completes
         const saveUser = async () => {
             if (!isLoaded || !isSignedIn || synced) {
                 return;
