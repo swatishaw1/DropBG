@@ -5,6 +5,8 @@ import com.example.DropBGBackend.Entity.UserEntity;
 import com.example.DropBGBackend.Repository.UserRepository;
 import com.example.DropBGBackend.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class UserServiceImpli implements UserService {
 
     private final UserRepository userRepository;
+    private final Logger logger = LoggerFactory.getLogger(UserServiceImpli.class);
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
@@ -47,6 +50,7 @@ public class UserServiceImpli implements UserService {
     public void deleteUserByClerkId(String clerkId) {
         UserEntity userEntity = userRepository.findByClerkId(clerkId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found."));
+        logger.info("User Is deleted: {}", userEntity);
         userRepository.delete(userEntity);
     }
 

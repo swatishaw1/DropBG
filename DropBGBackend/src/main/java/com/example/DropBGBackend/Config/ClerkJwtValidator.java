@@ -3,6 +3,8 @@ package com.example.DropBGBackend.Config;
 
 import com.svix.Webhook;
 import com.svix.exceptions.WebhookVerificationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import java.net.http.HttpHeaders;
 import java.util.HashMap;
@@ -12,8 +14,9 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtValidator {
+public class ClerkJwtValidator {
 
+    private static final Logger log = LoggerFactory.getLogger(ClerkJwtValidator.class);
     @Value("${app_secret_key}")
     private String secret;
 
@@ -27,11 +30,11 @@ public class JwtValidator {
             headers.put("svix-id", List.of(svixId));
             headers.put("svix-timestamp", List.of(svixTimestamp));
             headers.put("svix-signature", List.of(svixSignature));
-            HttpHeaders httpHeaders =
-                    HttpHeaders.of(headers, (k, v) -> true);
+            HttpHeaders httpHeaders = HttpHeaders.of(headers, (k, v) -> true);
             webhook.verify(payload, httpHeaders);
             return true;
         } catch (WebhookVerificationException e) {
+            log.error(e.getMessage());
             return false;
         }
     }

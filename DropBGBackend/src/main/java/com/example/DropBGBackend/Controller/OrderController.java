@@ -42,10 +42,8 @@ public class OrderController {
             System.out.println("Razorpay version: ");
             System.out.println(order);
             String status = order.get("status").toString();
-            if (!(status.equalsIgnoreCase("authorized") ||
-                    status.equalsIgnoreCase("captured") ||
-                    status.equalsIgnoreCase("created")
-            )) {
+            if (!(status.equalsIgnoreCase("authorized") ||  status.equalsIgnoreCase("captured") ||
+                    status.equalsIgnoreCase("created"))) {
                 System.out.println("Payment Not Done Yet");
             }
             RazorpayOrderDTO responseDTO = convertToDTO(order);

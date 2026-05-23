@@ -19,7 +19,6 @@ public class OrderServiceImpli implements OrderService {
 
     private final RazorpayService razorpayService;
     private final OrderRepository orderRepository;
-    private final UserService userService;
 
     private static final Map<String,PlanDetails> PLAN_DETAILS = Map.of(
             "Basic", new PlanDetails("Basic",100,499),

@@ -1,12 +1,14 @@
 package com.example.DropBGBackend.Controller;
 
-import com.example.DropBGBackend.Config.JwtValidator;
+import com.example.DropBGBackend.Config.ClerkJwtValidator;
 import com.example.DropBGBackend.DTO.UserDTO;
 import com.example.DropBGBackend.Response.DropBGResponse;
 import com.example.DropBGBackend.Service.UserService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ClerkWebhookController {
     private final UserService userService;
-    private final JwtValidator validator;
+    private final Logger logger =  LoggerFactory.getLogger(ClerkWebhookController.class);
+    private final ClerkJwtValidator validator;
     @PostMapping("/clerk")
     public ResponseEntity<?> handleClerkWebhook(@RequestHeader("svix-id") String svixId,
                                                   @RequestHeader("svix-timestamp") String svixTimestamp,
@@ -25,9 +28,9 @@ public class ClerkWebhookController {
 
         DropBGResponse response = null;
         try{
-            System.out.println(svixId);
-            System.out.println(svixTimestamp);
-            System.out.println(svixSignature);
+            logger.info(svixId);
+            logger.info(svixTimestamp);
+            logger.info(svixSignature);
             boolean valid = verifySignature(svixId,svixTimestamp,svixSignature ,payload);
             if(!valid){
                 response = DropBGResponse.builder()
@@ -65,6 +68,7 @@ public class ClerkWebhookController {
 
     private void handleClerkDeleted(JsonNode data) {
         String clerkId = data.path("id").asText();
+        logger.info("User should be deleted by this clerkId: {}", clerkId);
         userService.deleteUserByClerkId(clerkId);
     }
 
@@ -90,7 +94,7 @@ public class ClerkWebhookController {
     }
 
     private boolean verifySignature(String svixId, String svixTimestamp, String svixSignature, String payload) {
-        /*return validator.validate(svixId,svixTimestamp,svixSignature,payload);*///If validation cant be done properly then in database the user is not created properly and bg_removal won't get started though payment would be working
-        return true;
+        return validator.validate(svixId,svixTimestamp,svixSignature,payload);//If validation cant be done properly then in database the user is not created properly and bg_removal won't get started though payment would be working
+        /*return true;*/
     }
 }
