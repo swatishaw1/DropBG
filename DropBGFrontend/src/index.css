@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Outfit", sans-serif;
+}
+
+.slider{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    height: 100%;
+}
+
+/*For chrome safari thumb*/
+.slider::-webkit-slider-thumb{
+    appearance: none;
+    width: 30px;
+    min-height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../src/assets/slide_icon.svg");
+}
+
+.slider::-moz-range-thumb{
+    appearance: none;
+    width: 30px;
+    min-height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../src/assets/slide_icon.svg");
+}
